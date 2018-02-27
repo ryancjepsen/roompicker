@@ -13,19 +13,19 @@ class RoomPicker(object):
         self.turn = 0
         self.pass_count = 0
 
-    def get_room_number(self, roommate):
+    def _get_room_number(self, roommate):
         return self.rooms_df[self.rooms_df["roommate"] == roommate].index.values[0]
 
-    def get_roommate(self, room_number):
+    def _get_roommate(self, room_number):
         return self.rooms_df.loc[room_number, "roommate"]
 
-    def get_rent_from_roommate(self, roommate):
+    def _get_rent_from_roommate(self, roommate):
         return self.rooms_df[self.rooms_df["roommate"] == roommate].iloc[0, 1]
 
-    def get_rent_from_room_number(self, room_number):
+    def _get_rent_from_room_number(self, room_number):
         return self.rooms_df.loc[room_number, "rent"]
 
-    def set_roommate_and_rent(self, room_number, roommate, rent):
+    def _set_roommate_and_rent(self, room_number, roommate, rent):
         self.rooms_df.loc[room_number] = [roommate, rent]
 
     def pass_dude(self):
