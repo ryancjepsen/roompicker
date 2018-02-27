@@ -36,7 +36,7 @@ class RoomPicker(object):
         print(in_bid)
         print(self.total_rent)
         if in_bid > self.total_rent:
-            raise ValueError("Slow down Daddy Warbucks! bid cannot be higher than total rent. Try again.")
+            raise ValueError("Slow down Daddy Warbucks! Bid cannot be higher than total rent. Try again.")
         else:
             roommate = self.roommates[self.turn]
             old_room_number = self._get_room_number(roommate)
