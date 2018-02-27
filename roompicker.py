@@ -37,7 +37,7 @@ class RoomPicker(object):
         if old_room_number == in_room_number:
             raise ValueError("Cannot choose room you already have! Try again.")
         elif in_room_number not in self.rooms_df.index.values:
-            raise ValueError("Invalid room number! Try again")
+            raise ValueError("Invalid room number! Try again.")
         else:
             remaining_rent = self.total_rent - in_bid
             old_rent = self.get_rent_from_roommate(roommate)
