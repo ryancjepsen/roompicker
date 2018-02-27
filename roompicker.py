@@ -7,7 +7,8 @@ class RoomPicker(object):
         self.roommates = roommates
         random.shuffle(self.roommates)
         self.total_rent = total_rent
-        rooms_list = [[room_num + 1, roommate, 900] for room_num, roommate in enumerate(self.roommates)]
+        indiv_rent = total_rent / len(self.roommates)
+        rooms_list = [[room_num + 1, roommate, indiv_rent] for room_num, roommate in enumerate(self.roommates)]
         self.rooms_df = pd.DataFrame(rooms_list, columns=["room_number", "roommate", "rent"]).set_index("room_number")
         self.turn = 0
         self.pass_count = 0
