@@ -42,8 +42,8 @@ class RoomPicker(object):
             remaining_rent = self.total_rent - in_bid
             old_rent = self.get_rent_from_roommate(roommate)
             current_rent = self.get_rent_from_room_number(in_room_number)
-            current_roommate = self.get_roommate(in_room_number)
             if in_bid > current_rent:
+                current_roommate = self.get_roommate(in_room_number)
                 self.set_roommate_and_rent(old_room_number, current_roommate, old_rent)
                 rent_multiplier = remaining_rent / (self.total_rent - current_rent)
                 self.rooms_df["rent"] *= rent_multiplier
