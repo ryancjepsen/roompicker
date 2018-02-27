@@ -1,0 +1,9 @@
+<form method="POST" action="/">
+    {{ form.bid_bool.label }} {{ form.bid_bool(size=20) }}
+    {{ form.room_choice.label }} {{ form.room_choice(size=20) }}
+    {{ form.rent_choice.label }} {{ form.rent_choice(size=20) }}
+    <input type="submit" value="Go">
+    <h3>{{myexcept}}</h3>
+    <h2>{{whos_up}}</h2>
+    {{ html_data|safe }}
+</form>
