@@ -3,15 +3,17 @@ import pandas as pd
 
 class RoomPicker(object):
 
-    def __init__(self, roommates, total_rent):
+    def __init__(self):
+        self.turn = 0
+        self.pass_count = 0
+
+    def init(self, roommates, total_rent):
         self.roommates = roommates
         random.shuffle(self.roommates)
         self.total_rent = total_rent
         indiv_rent = total_rent / len(self.roommates)
         rooms_list = [[room_num + 1, roommate, indiv_rent] for room_num, roommate in enumerate(self.roommates)]
         self.rooms_df = pd.DataFrame(rooms_list, columns=["room_number", "roommate", "rent"]).set_index("room_number")
-        self.turn = 0
-        self.pass_count = 0
 
     def _get_room_number(self, roommate):
         return self.rooms_df[self.rooms_df["roommate"] == roommate].index.values[0]
@@ -58,6 +60,6 @@ class RoomPicker(object):
                     if self.turn == len(self.roommates) - 1:
                         self.turn = 0
                     else:
-                        self.turn += 1
+                        self.turn = self.roommates.index(current_roommate)
                 else:
                     raise ValueError("Bid must be higher than existing rent price! Try again.")

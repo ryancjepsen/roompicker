@@ -1,6 +1,6 @@
 from __future__ import print_function
 import pandas as pd
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from src.algo import roompicker
 from wtforms import Form
 from wtforms import StringField, IntegerField
@@ -10,6 +10,10 @@ app = Flask(__name__)
 # start off with no exceptions
 app.config['ROOMPICKER_EXCEPTION'] = ""
 
+class RoommatesForm(Form):
+    roommates = StringField('Roommates')
+    total_rent = IntegerField('Total Rent')
+
 # create the form for entering bids
 class BidForm(Form):
     # should verify that this is a y or an n TODO
@@ -17,11 +21,22 @@ class BidForm(Form):
     room_choice = IntegerField('room num')
     rent_choice = IntegerField('rent')
 
-# this needs to be filled in by a form TODO
-rp = roompicker.RoomPicker(roommates=['drew', 'casey', 'jepsen', 'joe', 'chris'], total_rent=4500)
+rp = roompicker.RoomPicker()
 
 @app.route('/', methods=['GET', 'POST'])
-def hello_world():
+def start():
+    roommates_form = RoommatesForm(request.form)
+
+    if request.method == 'POST':
+        roommates = str(roommates_form.roommates.data).split(",")
+        total_rent = int(roommates_form.total_rent.data)
+        rp.init(roommates, total_rent)
+        return redirect(url_for('pick_rooms'))
+
+    return render_template('start.html', form=roommates_form)
+
+@app.route('/roompicker', methods=['GET', 'POST'])
+def pick_rooms():
     # get the BidForm defined above
     bidform = BidForm(request.form)
     # if you hit go
@@ -40,7 +55,7 @@ def hello_world():
             # increment counter
             rp.pass_dude()
     # render the page
-    return render_template('index.html', form=bidform,
+    return render_template('roompicker.html', form=bidform,
                            html_data=rp.rooms_df.to_html(),
                            whos_up=rp.roommates[rp.turn],
                            myexcept = app.config['ROOMPICKER_EXCEPTION'])
